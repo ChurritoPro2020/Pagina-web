@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colectivo Nogales - Joyería y Mas </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #d4af37, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #d4af37;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, #d4af37, #ffd700);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4));
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #d4af37, #ffd700);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .floating-gem {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #d4af37, #ffd700);
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .gem1 { 
+            top: 20%; 
+            left: 10%; 
+            animation-delay: 0s; 
+        }
+        
+        .gem2 { 
+            top: 60%; 
+            right: 15%; 
+            animation-delay: 1s; 
+        }
+        
+        .gem3 { 
+            bottom: 30%; 
+            left: 20%; 
+            animation-delay: 2s; 
+        }
+
+        .products {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(45deg, #d4af37, #ffd700);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .product-card:hover::before {
+            left: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #d4af37, #ffd700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+        }
+
+        .product-card h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .product-card p {
+            text-align: center;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .about {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .about-text p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .about-visual {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, #d4af37, #ffd700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            margin: 0 auto;
+            animation: pulse 2s infinite;
+        }
+
+        footer {
+            background: #222;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #d4af37;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #d4af37;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px); 
+            }
+            50% { 
+                transform: translateY(-20px); 
+            }
+        }
+
+        @keyframes pulse {
+            0% { 
+                transform: scale(1); 
+            }
+            50% { 
+                transform: scale(1.05); 
+            }
+            100% { 
+                transform: scale(1); 
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Colectivo Nogales</div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="floating-gem gem1"></div>
+        <div class="floating-gem gem2"></div>
+        <div class="floating-gem gem3"></div>
+        
+        <div class="hero-content">
+            <h1>Joyería y Mas</h1>
+            <p>Descubre joyeria y articulos muy interesantes </p>
+            <a href="#productos" class="cta-button">Explorar Colección</a>
+        </div>
+    </section>
+
+    <section class="products" id="productos">
+        <div class="container">
+            <h2 class="section-title">Nuestras Colecciones</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-icon">💍</div>
+                    <h3>Pendiente</h3>
+                    <p>Chamba</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">📿</div>
+                    <h3>Hola</h3>
+                    <p>E que hace</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">👂</div>
+                    <h3>:v</h3>
+                    <p>Felipe Gay</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">⌚</div>
+                    <h3>P:v</h3>
+                    <p>IA</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">🎭</div>
+                    <h3>Baila</h3>
+                    <p>Negro</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">💎</div>
+                    <h3>paguen</h3>
+                    <p>Paro</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="nosotros">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>:v</h2>
+                    <p>pov:</p>
+                    <p>xD</p>
+                    <p>lol</p>
+                </div>
+                <div class="about-image">
+                    <div class="about-visual">✨</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p>📍pendiente</p>
+                    <p>📞pendiente</p>
+                    <p>✉️ pendiente</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Horarios</h3>
+                    <p>Lunes a Viernes: 11:00 - 19:00</p>
+                    <p>Sábados: 11:00 - 14:00</p>
+                    <p>Domingos: Cerrado</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Síguenos</h3>
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Pinterest</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function initPage() {
+            var navLinks = document.querySelectorAll('a[href^="#"]');
+            
+            for (var i = 0; i < navLinks.length; i++) {
+                navLinks[i].addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var targetId = this.getAttribute('href');
+                    var target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', function() {
+                var scrolled = window.pageYOffset;
+                var hero = document.querySelector('.hero');
+                var header = document.querySelector('header');
+                var rate = scrolled * -0.5;
+                
+                if (hero) {
+                    hero.style.transform = 'translateY(' + rate + 'px)';
+                }
+
+                if (header) {
+                    if (window.scrollY > 100) {
+                        header.style.background = 'rgba(255, 255, 255, 0.98)';
+                        header.style.boxShadow = '0 2px 30px rgba(0,0,0,0.15)';
+                    } else {
+                        header.style.background = 'rgba(255, 255, 255, 0.95)';
+                        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                    }
+                }
+            });
+
+            var productCards = document.querySelectorAll('.product-card');
+            for (var j = 0; j < productCards.length; j++) {
+                var card = productCards[j];
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = 'all 0.6s ease ' + (j * 0.1) + 's';
+                
+                setTimeout(function(element) {
+                    return function() {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    };
+                }(card), 500 + (j * 100));
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPage);
+        } else {
+            initPage();
+        }
+    </script>
+</body>
+</html>
